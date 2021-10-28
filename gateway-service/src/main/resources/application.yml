@@ -1,0 +1,26 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: gateway-service
+  cloud:
+      config:
+        uri: http://localhost:8888
+eureka:
+  instance:
+    instance-id: gateway-service
+    lease-renewal-interval-in-seconds: 1
+    lease-expiration-duration-in-seconds: 10
+    hostname: localhost
+  client:
+    eureka-connection-idle-timeout-seconds: 60
+    serviceUrl:
+          defaultZone: http://${eureka.instance.hostname}:${eureka.client.eureka-server-port}/eureka/
+    eureka-server-port: 8761
+    healthcheck:
+      enabled: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

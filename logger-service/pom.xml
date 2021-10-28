@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>digid-solution</artifactId>
+        <groupId>uz.asbt.digid</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <description>Logger service</description>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>logger-service</artifactId>
+    <version>1.0.0</version>
+    <packaging>jar</packaging>
+    <name>Logger service</name>
+
+    <properties>
+        <arm.id>3</arm.id>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>uz.asbt.digid</groupId>
+            <artifactId>common</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-config</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-zuul</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <executable>true</executable>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addDefaultImplementationEntries>false</addDefaultImplementationEntries>
+                            <addDefaultSpecificationEntries>false</addDefaultSpecificationEntries>
+                            <addClasspath>false</addClasspath>
+                        </manifest>
+                        <manifestEntries>
+                            <Title>${project.name}</Title>
+                            <Arm-ID>${arm.id}</Arm-ID>
+                            <Description>${project.description}</Description>
+                            <Version>${project.version}</Version>
+                            <Vendor>${project.organization.name}</Vendor>
+                            <Vendor-URL>${project.organization.url}</Vendor-URL>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

@@ -1,0 +1,8 @@
+#rsa keys
+rsa:
+  private:
+    key: MIIBVAIBADANBgkqhkiG9w0BAQEFAASCAT4wggE6AgEAAkEA2oZrXpEinwSQSjYLjWj9Xlf/HzaUBnRRlPSrIeS5cZhioHJpJNTKxOHTN68rX4JeRJ6TBiuMk34xR5og8yHQlQIDAQABAkARbsQVp7YKLIGG7LfQNfjHHsr98PXZwUwZeh6a1hXLJMtftuStnjkS4cmKs7nZfh7uvrWj195RHKFhSlbJD7exAiEA7+Od3pXWSbiywZtW0GZlblj9tkFRE1lEMjJJI80TQz0CIQDpM35JGWiDZI6g901FMnxbva7+nBbVAZN09JJ5/9S4OQIgBkJcJiimtLm7AE47T6i8UMrFo/HEWcrkeqLRQbviGskCIFenzV44uLo6wAntKxRJh8kMIYz+qu5h60VY8P3+lbyxAiEA1pUbgrqQ3nm+rN47Ume/ZWxw5SqUFNTbTIWOQVoMq2c=
+spring:
+  cache:
+    jcache:
+      config: classpath:ehcache.xml

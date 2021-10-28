@@ -1,0 +1,17 @@
+server:
+  port: 8761
+spring:
+  boot:
+    admin:
+      context-path: /admin
+  application:
+    name: discovery-service
+eureka:
+  instance:
+    lease-renewal-interval-in-seconds: 1
+    lease-expiration-duration-in-seconds: 10
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'

@@ -1,0 +1,24 @@
+spring:
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+      - org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration
+  application:
+    name: monitoring-service
+  profiles:
+    active: production
+  cloud:
+    config:
+      uri: http://localhost:8888
+      #fail startup of a service if it cannot connect to the Config Server
+      fail-fast: true
+      retry:
+        initialInterval: 6000
+        maxInterval: 6000
+        maxAttempts: 10
+eureka:
+  instance:
+    instanceId: monitoring-service
+server:
+  port: 8989

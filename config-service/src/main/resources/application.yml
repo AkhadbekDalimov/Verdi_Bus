@@ -1,0 +1,30 @@
+server:
+  port: 8888
+spring:
+  application:
+    name: config-service
+  cloud:
+    config:
+      server:
+        git:
+          uri: http://localhost/config-server-repo.git
+          username: gituser
+          password: git123456
+eureka:
+  instance:
+    instance-id: config-service
+    lease-renewal-interval-in-seconds: 1
+    lease-expiration-duration-in-seconds: 10
+    hostname: localhost
+  client:
+    eureka-connection-idle-timeout-seconds: 60
+    serviceUrl:
+          defaultZone: http://${eureka.instance.hostname}:${eureka.client.eureka-server-port}/eureka/
+    eureka-server-port: 8761
+    healthcheck:
+      enabled: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: digid-service
+  profiles:
+    active: production
+  cloud:
+    config:
+#      uri: http://localhost:8888
+      uri: http://172.16.20.13:8888 #prod
+#      uri: http://172.16.20.15:8888  #test
+      #fail startup of a service if it cannot connect to the Config Server
+      fail-fast: true
+      retry:
+        initialInterval: 6000
+        maxInterval: 6000
+        maxAttempts: 10
+
+swagger:
+  base-package: uz.asbt.digid.digidservice.controller
