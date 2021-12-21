@@ -87,15 +87,19 @@ public class SaveAllDataServiceImpl implements SaveAllDataService {
   }
 
   private void savePhotoData(final ModelPersonAnswere person, final PassportDataDTO savedPassportDataDTO) {
-    log.info("save photo{}", savedPassportDataDTO);
-    final PhotoDataDTO photoData = PhotoDataDTO
-      .builder()
-      .passportData(savedPassportDataDTO)
-      .photo(person.getModelPersonPhoto().getPersonPhoto())
-      .build();
+    if(person.getModelPersonPhoto().getPersonPhoto() != null && !person.getModelPersonPhoto().getPersonPhoto().isEmpty()) {
+      log.info("save photo{}", savedPassportDataDTO);
+      final PhotoDataDTO photoData = PhotoDataDTO
+              .builder()
+              .passportData(savedPassportDataDTO)
+              .photo(person.getModelPersonPhoto().getPersonPhoto())
+              .build();
 
-    log.info("saving photo data {}", photoData);
-    photoDataService.savePhotoData(photoData);
+      log.info("saving photo data {}", photoData);
+      photoDataService.savePhotoData(photoData);
+    } else {
+      log.info("can not save photo is null");
+    }
   }
 }
 

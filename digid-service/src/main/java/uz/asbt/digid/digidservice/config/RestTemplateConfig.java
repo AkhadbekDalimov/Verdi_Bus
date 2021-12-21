@@ -58,7 +58,7 @@ public class RestTemplateConfig {
     @LoadBalanced
     @Bean("mainRestTemplate")
     public RestTemplate mainTemplate(final RestTemplateBuilder restTemplateBuilder){
-        final int timeout = 5000;
+        final int timeout = 20000;
         return restTemplateBuilder
                 .requestFactory(() -> new BufferingClientHttpRequestFactory(getClientHttpRequestFactory(timeout)))
                 .basicAuthentication(username, password)

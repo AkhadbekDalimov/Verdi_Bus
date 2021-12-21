@@ -9,7 +9,7 @@ import uz.asbt.digid.common.exception.DataSaveException;
 import uz.asbt.digid.common.exception.GettingListException;
 import uz.asbt.digid.common.exception.RecognizeIntegrationException;
 import uz.asbt.digid.common.models.rest.Response;
-import uz.asbt.digid.digidservice.model.dto.MobileAppIdRequestDTO;
+import uz.asbt.digid.common.models.dto.MobileAppIdRequestDTO;
 import uz.asbt.digid.digidservice.model.dto.MobileAppIdResponseDTO;
 import uz.asbt.digid.digidservice.model.dto.MobileDataDTO;
 import uz.asbt.digid.digidservice.service.MobileDataService;

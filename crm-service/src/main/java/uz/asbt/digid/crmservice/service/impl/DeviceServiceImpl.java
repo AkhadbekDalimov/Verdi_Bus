@@ -51,8 +51,8 @@ public class DeviceServiceImpl implements DeviceService {
   public DeviceDTO save(@NonNull final DeviceDTO device) {
     return Optional.of(device)
       .map(d -> {
-        log.info("Begin getting device by CRMID");
-        Optional.ofNullable(deviceRepository.findByDeviceCrmId(d.getDeviceCrmId()))
+        log.info("Begin getting device by CRM ID");
+        Optional.ofNullable(deviceRepository.findBySerialNumber(d.getSerialNumber()))
           .ifPresent(obj -> {
             log.info("Device is present{}{}", obj, obj.getSerialNumber().contains("RMD"));
             if ((obj.getStatus() != DeviceStatus.INTO_STORE.getStatus()

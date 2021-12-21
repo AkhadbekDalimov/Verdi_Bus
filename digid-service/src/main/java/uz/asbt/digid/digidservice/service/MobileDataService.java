@@ -1,5 +1,6 @@
 package uz.asbt.digid.digidservice.service;
 
+import uz.asbt.digid.common.models.dto.MobileAppIdRequestDTO;
 import uz.asbt.digid.digidservice.model.dto.*;
 
 import java.util.List;

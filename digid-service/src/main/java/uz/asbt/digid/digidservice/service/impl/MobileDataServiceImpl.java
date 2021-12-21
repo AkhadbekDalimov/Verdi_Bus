@@ -11,7 +11,7 @@ import uz.asbt.digid.common.exception.CustomException;
 import uz.asbt.digid.common.exception.DataSaveException;
 import uz.asbt.digid.common.exception.EntityFindException;
 import uz.asbt.digid.common.exception.IntegrationException;
-import uz.asbt.digid.common.models.entity.Client;
+import uz.asbt.digid.common.models.dto.MobileAppIdRequestDTO;
 import uz.asbt.digid.common.models.rest.Response;
 import uz.asbt.digid.digidservice.model.dto.*;
 import uz.asbt.digid.digidservice.model.entity.MobileData;
@@ -84,7 +84,9 @@ public class MobileDataServiceImpl implements MobileDataService {
     } else {
       String appUrl = listAppsId.get(0).getAppUrl();
       if (!appUrl.equals("api.digid.uz"))
-        respnse.setSuccess(sendGuid(appUrl, requestDTO).isSuccess());
+        // TODO add request to app back end
+        respnse.setSuccess(true);
+//        respnse.setSuccess(sendGuid(appUrl, requestDTO).isSuccess());
       else
         respnse.setSuccess(true);
     }

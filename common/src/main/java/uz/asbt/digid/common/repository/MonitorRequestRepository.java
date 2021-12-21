@@ -19,6 +19,8 @@ public interface MonitorRequestRepository extends JpaRepository<RequestMonitor, 
       "from RequestMonitor rm where (rm.requestDate between ?1 and ?2) and rm.serialNumber in (?3)")
     List<RequestMonitorDTO> findByRequestDateBetweenAndSerialNumberIn(LocalDateTime start, LocalDateTime end, String serials);
 
+
+     //TODO problem
     @Query(value = "SELECT * FROM  TB_NEW_MONITOR_REQUEST t1  " +
       "WHERE t1.REQUEST_DATE = (SELECT max(REQUEST_DATE) FROM " +
       "TB_NEW_MONITOR_REQUEST t2 WHERE t1.PINPP = t2.PINPP) AND t1.PINPP = ?1", nativeQuery = true)

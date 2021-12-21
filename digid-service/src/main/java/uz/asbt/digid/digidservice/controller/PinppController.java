@@ -4,17 +4,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.WebRequest;
 import uz.asbt.digid.common.enums.LoginType;
 import uz.asbt.digid.common.models.entity.client.ModelPersonAnswere;
 import uz.asbt.digid.common.models.rest.Response;
+import uz.asbt.digid.digidservice.model.entity.PhotoData;
+import uz.asbt.digid.digidservice.repository.PhotoDataRepository;
 import uz.asbt.digid.digidservice.service.PassportService;
 
 import java.util.Locale;
@@ -46,5 +43,4 @@ public class PinppController {
                                                                    final WebRequest webRequest) {
     return passportService.getPassportInfoForMobile(person, locale, LoginType.VERIFICATION.getType());
   }
-
 }

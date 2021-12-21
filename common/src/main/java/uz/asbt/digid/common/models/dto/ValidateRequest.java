@@ -28,7 +28,7 @@ public class ValidateRequest {
 //  @NotEmpty
   String pinpp;
 
-  @NotEmpty
+//  @NotEmpty
   String basePhoto;
 
   @NotEmpty

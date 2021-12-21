@@ -42,7 +42,13 @@ public class PassportControllerAspect {
 
   }
 
-  @Before("commonRequest()")
+
+  @Pointcut("execution(* uz.asbt.digid.digidservice.controller.PinppController.*(..))")
+  public void mobileRequest() {
+
+  }
+
+  @Before("commonRequest() || mobileRequest()")
   public void before(final JoinPoint joinPoint) {
     final Object[] args = joinPoint.getArgs();
 
@@ -75,7 +81,7 @@ public class PassportControllerAspect {
     }
   }
 
-  @After("commonRequest()")
+  @After("commonRequest() || mobileRequest()")
   public void after(final JoinPoint joinPoint) {
     final Object[] args = joinPoint.getArgs();
     if (args != null && args.length > 1) {

@@ -12,6 +12,7 @@ import uz.asbt.digid.common.models.dto.CrmMobileRegRequest;
 import uz.asbt.digid.common.models.dto.CrmMobileRegResponse;
 import uz.asbt.digid.common.models.dto.DeviceDTO;
 import uz.asbt.digid.common.models.dto.OrganizationDTO;
+import uz.asbt.digid.common.models.entity.client.ModelAddress;
 import uz.asbt.digid.crmservice.service.ClientService;
 import uz.asbt.digid.crmservice.service.DeviceService;
 import uz.asbt.digid.crmservice.service.MobileClientService;
@@ -61,6 +62,10 @@ public class MobileClientServiceImpl implements MobileClientService {
         clientService.deleteClientByDeviceSerialNumber(deviceDTO);
       }
       log.info("begin saving client");
+      if(crmMobileRegRequest.getModelAddress() == null){
+          crmMobileRegRequest.setModelAddress(new ModelAddress());
+      }
+
       return Optional.ofNullable(modelMapper.map(crmMobileRegRequest.getModelAddress(), ClientDTO.class))
         .map(client -> {
           client.setClientPubKey(mobileRegResponse.getClientPubKey());
@@ -69,7 +74,6 @@ public class MobileClientServiceImpl implements MobileClientService {
           return client;
         })
         .map(c -> {
-
           final ClientDTO dto = clientService.save(c);
           log.info("client result {}", dto);
           return dto;

@@ -51,4 +51,12 @@ public class CrmMobileRegRequest {
   @JsonAlias("address")
   private ModelAddress modelAddress;
 
+  @JsonProperty("BasePhoto")
+  @JsonAlias("basePhoto")
+  private String basePhoto;
+
+  @JsonProperty("AdditionalPhoto")
+  @JsonAlias("additionalPhoto")
+  private String additionalPhoto;
+
 }

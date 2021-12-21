@@ -5,8 +5,8 @@ spring:
     active: production
   cloud:
     config:
-      #uri: http://172.16.20.13:8888 #prod
-      uri: http://172.16.20.15:8888 #test
+      uri: http://172.16.20.13:8888 #prod
+#      uri: http://172.16.20.15:8888 #test
       #fail startup of a service if it cannot connect to the Config Server
       fail-fast: true
       retry:

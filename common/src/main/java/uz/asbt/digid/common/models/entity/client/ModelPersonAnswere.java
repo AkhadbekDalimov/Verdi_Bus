@@ -64,10 +64,6 @@ public class ModelPersonAnswere {
     @JsonAlias("modelPersonIdCard")
     private ModelPersonIdCardAnswere modelPersonIdCard;
 
-    @JsonProperty("ModelPersonPhoto")
-    @JsonAlias("modelPersonPhoto")
-    private ModelPersonPhoto modelPersonPhoto;
-
     @JsonProperty("LivenessAnswere")
     @JsonAlias("livenessAnswere")
     private LivenessAnswere livenessAnswere;
@@ -99,6 +95,10 @@ public class ModelPersonAnswere {
     @JsonProperty("GridRequest")
     @JsonAlias("gridRequest")
     private GridRequest gridRequest;
+
+    @JsonProperty("ModelPersonPhoto")
+    @JsonAlias("modelPersonPhoto")
+    private ModelPersonPhoto modelPersonPhoto;
 
     @Override
     public String toString() {

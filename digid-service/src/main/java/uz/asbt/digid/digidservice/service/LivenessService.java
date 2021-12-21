@@ -196,7 +196,8 @@ public class LivenessService {
     return ValidateRequest
       .builder()
       .additionalPhoto(personAnswere.getModelPersonPhoto().getAdditional())
-      .basePhoto(personAnswere.getModelPersonPhoto().getPersonPhoto())
+      .basePhoto((personAnswere.getModelPersonPhoto().getPersonPhoto() == null
+              || personAnswere.getModelPersonPhoto().getPersonPhoto().isEmpty()) ? "make base photo not null" : personAnswere.getModelPersonPhoto().getPersonPhoto())
       // при проверки фото только на симиларити и лайвнеса не приходит сирия номер паспорта и пнфл, чтоб не было null - default value
       .serialNumber(personAnswere.getModelPersonPassport() != null ? personAnswere.getModelPersonPassport().getPersonPassport().getDocumentNumber()
         : "AA0000000")

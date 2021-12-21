@@ -32,7 +32,6 @@ public class MobileClientController {
   DeviceService deviceService;
   MessageSource messageSource;
   ModelMapper modelMapper;
-
   private static final String SUCCESS = "message_0";
 
   @PostMapping(value = "{lang}/mobile")

@@ -36,6 +36,8 @@ import uz.asbt.digid.digidservice.builder.ModelAddressBuilder;
 import uz.asbt.digid.digidservice.builder.ModelPersonBuilder;
 import uz.asbt.digid.digidservice.builder.ModelTempAddressBuilder;
 import uz.asbt.digid.digidservice.model.dto.PassportDataDTO;
+import uz.asbt.digid.digidservice.model.entity.PhotoData;
+import uz.asbt.digid.digidservice.repository.PhotoDataRepository;
 import uz.asbt.digid.digidservice.service.impl.CrmService;
 import uz.asbt.digid.digidservice.service.impl.NibbdPhysicalPhoto;
 import uz.asbt.digid.digidservice.validator.FieldValidator;
@@ -61,6 +63,7 @@ public class PassportService {
   private final ModelTempAddressBuilder tempAddressBuilder;
   private final LivenessService livenessService;
   private final SaveAllDataService saveAllDataService;
+  private final PhotoDataRepository photoDataRepository;
   private final PhotoDataService photoDataService;
   private final CrmService crmService;
   private final IReport monitorService;
@@ -78,7 +81,8 @@ public class PassportService {
                          final PhotoDataService photoDataService,
                          final CrmService crmService,
                          @Qualifier("monitorService") final IReport monitorService,
-                         final PassportDataService passportDataService) {
+                         final PassportDataService passportDataService,
+                         final PhotoDataRepository photoDataRepository) {
     this.validator = validator;
     this.integrationService = integrationService;
     this.error = error;
@@ -92,6 +96,7 @@ public class PassportService {
     this.crmService = crmService;
     this.monitorService = monitorService;
     this.passportDataService = passportDataService;
+    this.photoDataRepository = photoDataRepository;
   }
 
   @SneakyThrows
@@ -118,6 +123,8 @@ public class PassportService {
     log.info("begin checking liveness");
     if (validator.isLiveness(person)) {
       log.info("begin checking photo {}", person.getLivenessAnswere().getValidationType());
+      // TODO liveness check from DB need check
+      setRendipCheckValues(person, locale);
       final LivenessAnswere livenessAnswere = getRendipAnswere(person);
       log.info("End rendip validation {}", livenessAnswere);
 //      person.getLivenessAnswere().setValidateResponse(livenessAnswere.getValidateResponse());
@@ -139,6 +146,12 @@ public class PassportService {
       saveAllDataService.saveAllDataToDB(returnPerson.getBody().getResponse(), locale);
     }
     return returnPerson;
+  }
+
+  private void setRendipCheckValues(ModelPersonAnswere person, Locale locale) {
+    final ClientDTO clientDTO = crmService.findBySerialNumber(person.getModelServiceInfo().getServiceInfo().getScannerSerial(), locale);
+    person.getLivenessAnswere().getValidationType().setIsLivenessCheck(clientDTO.getDevice().getLivenessCheck());
+    person.getLivenessAnswere().getValidationType().setIsSimilarityCheck(clientDTO.getDevice().getSimilarityCheck());
   }
 
   @SneakyThrows
@@ -212,8 +225,9 @@ public class PassportService {
     final ClientDTO clientDTO;
     log.info("Begin sending mobile data to CRM:");
     if (LoginType.REGISTRATION.getType() == loginType) {
-      final CrmMobileRegRequest mobileRegRequest = buildCrmMobileRegistrationRequest(returnPerson.getBody().getResponse());
-      clientDTO = crmService.sendMobileClientDataToCrm(mobileRegRequest, locale);
+        final CrmMobileRegRequest mobileRegRequest = buildCrmMobileRegistrationRequest(returnPerson.getBody().getResponse());
+        clientDTO = crmService.sendMobileClientDataToCrm(mobileRegRequest, locale);
+        return clientDTO;
     } else {
       clientDTO = crmService.findBySerialNumber(person.getModelServiceInfo().getServiceInfo().getScannerSerial(), locale);
     }
@@ -380,19 +394,28 @@ public class PassportService {
       });
   }
 
-  private PhysicalPhotoResponse getPersonPhotoFromNibbd(final ModelPersonAnswere person) {
-    log.info("Begin getting physical photo from nibbd");
-    final PhysicalPhotoResponse physicalResponse = nibbdPhysicalPhoto.get(person);
-    person.getModelPersonPhoto().setPersonPhoto(physicalResponse.getResponse().getPhoto());
-    person.getModelPersonPassport().getPersonPassport().setPinpp(physicalResponse.getResponse().getPin());
-    if (physicalResponse.getResponse().getPhoto() != null && !physicalResponse.getResponse().getPhoto().isEmpty()) {
-      person.getModelPersonPhoto().setAnswere(Answere
-        .builder()
-        .answereId(error.getErrorCode("ex111"))
-        .answereComment(error.getErrorMessage("message_111"))
-        .build());
+  private void getPersonPhotoFromNibbd(final ModelPersonAnswere person) {
+    log.info("Begin getting physical photo");
+    final Optional<PhotoData> optionalPhotoData = photoDataRepository.findByPassportDataId(
+            person.getModelPersonPassport().getPersonPassport().getDocumentNumber());
+    if(optionalPhotoData.isPresent()) {
+      log.info("photo from DB");
+      person.getModelPersonPhoto().setPersonPhoto(optionalPhotoData.get().getPhoto());
+      person.getModelPersonPassport().getPersonPassport().setPinpp(
+              person.getModelPersonPassport().getPersonPassport().getPinpp());
+    } else {
+      log.info("photo from Nibbd");
+      final PhysicalPhotoResponse physicalResponse = nibbdPhysicalPhoto.get(person);
+      person.getModelPersonPhoto().setPersonPhoto(physicalResponse.getResponse().getPhoto());
+      person.getModelPersonPassport().getPersonPassport().setPinpp(physicalResponse.getResponse().getPin());
+      if (physicalResponse.getResponse().getPhoto() != null && !physicalResponse.getResponse().getPhoto().isEmpty()) {
+        person.getModelPersonPhoto().setAnswere(Answere
+                .builder()
+                .answereId(error.getErrorCode("ex111"))
+                .answereComment(error.getErrorMessage("message_111"))
+                .build());
+      }
     }
-    return physicalResponse;
   }
 
 
@@ -429,6 +452,8 @@ public class PassportService {
       .surname(person.getPerson().getSurnameL())
       .patronym(person.getPerson().getPatronymL())
       .appId(person.getAppId())
+      .basePhoto(person.getModelPersonPhoto().getPersonPhoto())
+      .additionalPhoto(person.getModelPersonPhoto().getPersonPhoto())
       .build();
   }
 

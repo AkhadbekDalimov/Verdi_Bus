@@ -48,7 +48,7 @@ public class PhotoValidationServiceImpl implements PhotoValidationService {
 
   @Override
   public ResponseEntity<Response<LivenessAnswere>> validate(final ModelPersonAnswere person) {
-          return responseEntityBuild(getRendipAnswere(person), person);
+          return  responseEntityBuild(livenessService.livenessResult(person), person);
   }
 
   private LivenessAnswere getRendipAnswere(final ModelPersonAnswere person) {
